@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.myweatherapplication.home.view.HomeFragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (savedInstanceState == null){
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,HomeFragment()).commit()
+                .replace(R.id.fragment_container, HomeFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
         }
 
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.nav_home-> supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,HomeFragment()).commit()
+                .replace(R.id.fragment_container, HomeFragment()).commit()
 
             R.id.nav_setting-> supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container,SettingsFragment()).commit()

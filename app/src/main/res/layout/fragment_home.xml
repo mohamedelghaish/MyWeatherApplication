@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/background"
-    tools:context=".HomeFragment" >
+    tools:context=".home.view.HomeFragment" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mostly Cloudy"
@@ -31,16 +31,16 @@
                 android:layout_marginTop="32dp"/>
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:id="@+id/iv_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
 
                 app:srcCompat="@drawable/cloudy_sunny" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mon June 17 | 10: AM"
@@ -50,7 +50,7 @@
                 android:layout_marginTop="8dp"/>
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_temp_degree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="25°C"
@@ -60,7 +60,7 @@
                 android:textAlignment="center"/>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tv_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Alixandria"
@@ -88,24 +88,25 @@
                         android:layout_height="34dp"
                         android:layout_gravity="center"
 
-                        app:srcCompat="@drawable/rain" />
+                        app:srcCompat="@drawable/ic_temperature" />
+
+
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Max Temp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+                    <TextView
+                        android:id="@+id/tv_maxTemp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="22%"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Rain"
-                        android:textAlignment="center"
-                        android:textColor="@color/white" />
 
                     <ImageView
                         android:id="@+id/imageView3"
@@ -122,7 +123,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white" />
                     <TextView
-                        android:id="@+id/cloud_info"
+                        android:id="@+id/tv_cloud_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0%"
@@ -147,14 +148,7 @@
 
                         app:srcCompat="@drawable/wind" />
 
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="12 km/h"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/textView11"
@@ -162,8 +156,15 @@
                         android:layout_height="wrap_content"
                         android:text="Wind speed"
                         android:textAlignment="center"
-                        app:srcCompat="@drawable/wind"
                         android:textColor="@color/white" />
+                    <TextView
+                        android:id="@+id/tv_windSpeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="12 km/h"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/imageView4"
@@ -171,17 +172,17 @@
                         android:layout_height="34dp"
                         android:layout_marginTop="16dp"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_ultraviolet"
+                        app:srcCompat="@drawable/pressure"
                         />
                     <TextView
                         android:id="@+id/ultraviolt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Ultraviolet"
+                        android:text="Pressure"
                         android:textAlignment="center"
                         android:textColor="@color/white" />
                     <TextView
-                        android:id="@+id/ultraviolt_info"
+                        android:id="@+id/tv_pressure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -203,16 +204,6 @@
                         android:layout_gravity="center"
 
                         app:srcCompat="@drawable/humidity" />
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="18%"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
                     <TextView
                         android:id="@+id/textView9"
                         android:layout_width="match_parent"
@@ -220,6 +211,17 @@
                         android:text="Humidity"
                         android:textAlignment="center"
                         android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_humidity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="18%"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+
                     <ImageView
                         android:id="@+id/image_visibility"
                         android:layout_width="34dp"
@@ -236,7 +238,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white" />
                     <TextView
-                        android:id="@+id/visibility_info"
+                        android:id="@+id/tv_visibility_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="10000 m"
@@ -257,7 +259,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RV_week_info"
                 android:layout_width="match_parent"
-                android:layout_height="135dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="19.50dp"
                 android:clipToPadding="false"
