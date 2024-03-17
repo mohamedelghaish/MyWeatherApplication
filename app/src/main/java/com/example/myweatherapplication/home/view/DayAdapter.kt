@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class DayAdapter : ListAdapter<WeatherEntry, DayAdapter.ViewHolder>(WeatherEntryDiffCallback()) {
+class DayAdapter : ListAdapter<List<WeatherEntry>, DayAdapter.ViewHolder>(WeatherEntryDiffCallback()) {
 
     private lateinit var context: Context
 
@@ -33,14 +33,13 @@ class DayAdapter : ListAdapter<WeatherEntry, DayAdapter.ViewHolder>(WeatherEntry
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentObj = getItem(position)
-        holder.day.text = getNameOfDay(currentObj.dt)
-        holder.statusTxt.text = currentObj.weather.get(0).description
-        val temperature: String
-        temperature = DecimalFormat("#").format(currentObj.main.temp - 273.15)
-        holder.tempreatureDegree.text = temperature + "°C"
+        holder.day.text = getNameOfDay(currentObj.get(position).dt)
+        holder.statusTxt.text = currentObj.get(position).weather.get(0).description
+
+        holder.tempreatureDegree.text = convertTemperature(currentObj.get(position).main.temp)
         Glide.with(context)
             .load("https://openweathermap.org/img/wn/" +
-                    currentObj.weather.firstOrNull()?.icon + "@2x.png")
+                    currentObj.get(position).weather.firstOrNull()?.icon + "@2x.png")
             .into(holder.statusImg)
 
 
@@ -66,14 +65,16 @@ class DayAdapter : ListAdapter<WeatherEntry, DayAdapter.ViewHolder>(WeatherEntry
 
 
 
-    private class WeatherEntryDiffCallback : DiffUtil.ItemCallback<WeatherEntry>() {
-        override fun areItemsTheSame(oldItem: WeatherEntry, newItem: WeatherEntry): Boolean {
-            return oldItem.dt == newItem.dt
+    class WeatherEntryDiffCallback : DiffUtil.ItemCallback<List<WeatherEntry>>() {
+        override fun areItemsTheSame(oldItem: List<WeatherEntry>, newItem: List<WeatherEntry>): Boolean {
+            // Since you're comparing lists, you can check if their sizes are equal
+            return oldItem.size == newItem.size
         }
 
-        @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: WeatherEntry, newItem: WeatherEntry): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: List<WeatherEntry>, newItem: List<WeatherEntry>): Boolean {
+            // You can compare the contents of the lists if needed, but for now, let's assume they are always different
+            // Replace this with a proper comparison based on your requirements
+            return false
         }
     }
 

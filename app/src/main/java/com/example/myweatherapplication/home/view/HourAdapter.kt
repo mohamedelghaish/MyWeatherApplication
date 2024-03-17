@@ -34,10 +34,9 @@ class HourAdapter : ListAdapter<WeatherEntry, HourAdapter.ViewHolder>(WeatherEnt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentObj = getItem(position)
         holder.time.text = convertTime(currentObj.dt)
-        val temperature: String
-        temperature = DecimalFormat("#").format(currentObj.main.temp - 273.15)
 
-        holder.tempreatureDegree.text = temperature + "°C"
+
+        holder.tempreatureDegree.text = convertTemperature(currentObj.main.temp)
         Glide.with(context)
             .load("https://openweathermap.org/img/wn/" +
                     currentObj.weather.firstOrNull()?.icon + "@2x.png")

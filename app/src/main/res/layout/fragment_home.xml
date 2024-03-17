@@ -49,15 +49,34 @@
                 android:textColor="@color/white"
                 android:layout_marginTop="8dp"/>
 
-            <TextView
-                android:id="@+id/tv_temp_degree"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="25°C"
-                android:textSize="63sp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_temp_degree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25"
+                    android:textSize="63sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/tv_temp_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="°C"
+                    android:textSize="63sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginStart="8dp"
+                    android:textAlignment="center"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_city"
@@ -99,14 +118,30 @@
                         android:text="Max Temp"
                         android:textAlignment="center"
                         android:textColor="@color/white" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp">
                     <TextView
                         android:id="@+id/tv_maxTemp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="22%"
+                        android:text="22"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_maxTemp_unit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="°C"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
 
                     <ImageView
                         android:id="@+id/imageView3"
@@ -157,14 +192,23 @@
                         android:text="Wind speed"
                         android:textAlignment="center"
                         android:textColor="@color/white" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp">
                     <TextView
                         android:id="@+id/tv_windSpeed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="12 km/h"
+                        android:text="12 "
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
+
+
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/imageView4"

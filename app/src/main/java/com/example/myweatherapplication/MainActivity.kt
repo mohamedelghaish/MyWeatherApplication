@@ -64,4 +64,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             onBackPressedDispatcher.onBackPressed()
         }
     }
+    fun restart() {
+        val intent = intent
+        finish()
+        startActivity(intent)
+    }
 }
