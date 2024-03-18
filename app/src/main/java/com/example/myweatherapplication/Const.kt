@@ -2,7 +2,7 @@ package com.example.myweatherapplication
 
 class Const {
     companion object {
-        var language: String = ""
+        var language: String = "en"
         var longitude: String = ""
         var latitude: String = ""
         var tempUnit = "celsius"

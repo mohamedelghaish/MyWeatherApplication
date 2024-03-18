@@ -1,23 +1,8 @@
-package com.example.myweatherapplication.home.view
+package com.example.myweatherapplication.favorite.view
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.location.LocationManager
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
-import android.provider.Settings
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.PermissionChecker.checkSelfPermission
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,88 +10,55 @@ import com.bumptech.glide.Glide
 import com.example.myweatherapplication.ApiState
 import com.example.myweatherapplication.Const
 import com.example.myweatherapplication.R
-import com.example.myweatherapplication.databinding.FragmentHomeBinding
-import com.example.myweatherapplication.home.viewmodel.HomeViewModel
+import com.example.myweatherapplication.database.LocalDataSourceImp
+import com.example.myweatherapplication.databinding.ActivityDetailsFavoriteBinding
+import com.example.myweatherapplication.favorite.viewmodel.FavoriteViewModel
+import com.example.myweatherapplication.favorite.viewmodel.FavoriteViewModelFactory
+import com.example.myweatherapplication.home.view.DayAdapter
+import com.example.myweatherapplication.home.view.HourAdapter
+import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.model.WeatherResponse
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
+import com.example.myweatherapplication.network.RemoteDataSourceImp
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class HomeFragment : Fragment() {
-
-    private lateinit var  viewModel:HomeViewModel
-    private val TAG = "HomeFragment"
-    private lateinit var binding: FragmentHomeBinding
-    lateinit var hourAdapter: HourAdapter
+class DetailsFavorite : AppCompatActivity() {
+    private lateinit var viewModel: FavoriteViewModel
+    private lateinit var binding: ActivityDetailsFavoriteBinding
+    private lateinit var hourAdapter: HourAdapter
+    private lateinit var dayAdapter: DayAdapter
     lateinit var hourManager: LinearLayoutManager
-    lateinit var dayAdapter: DayAdapter
     lateinit var dayManager: LinearLayoutManager
-    private val REQUEST_CODE_LOCATION_PERMISSION = 5
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var long:String
-    lateinit var lat :String
-    private lateinit var sharedPreferences: SharedPreferences
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //setContentView(R.layout.activity_details_favorite)
+        binding = ActivityDetailsFavoriteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        init()
+        getData()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+    fun getData(){
+        val latitude = intent.getStringExtra("LAT").toString()
+        val longitude = intent.getStringExtra("LONG").toString()
 
-    ): View? {
-        // Inflate the layout for this fragment
-       // viewModel =ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
-        //return inflater.inflate(R.layout.fragment_home, container, false)
-        binding = FragmentHomeBinding.inflate(layoutInflater)
-        return binding.root
-
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        hourAdapter = HourAdapter()
-        hourManager = LinearLayoutManager(requireContext())
-
-        dayAdapter= DayAdapter()
-        dayManager = LinearLayoutManager(requireContext())
-
-
-
-        viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
-        sharedPreferences = requireActivity().getSharedPreferences("location",Context.MODE_PRIVATE)
-        lat = sharedPreferences.getString("latitude","0")!!.toString()
-        long = sharedPreferences.getString("longitude","0")!!.toString()
-
-
-        lifecycleScope.launch(Dispatchers.Main) {viewModel.getWeatherFromNetwork(lat,long,"en") }
-
+        viewModel.getDataToFavoriteLocation(latitude,longitude,Const.language)
 
         lifecycleScope.launch {
-            viewModel._weatherResponse.collectLatest {
+            viewModel._favoriteLocationDetails.collectLatest {
                 when(it){
                     is ApiState.Success->{
                         setData(it.data)
                     }
                     else->{
                         Toast.makeText(
-                            requireContext(),
+                            this@DetailsFavorite,
                             "there is a problem",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -115,7 +67,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
 
     private fun getTemperature(temp: Double): String {
         val temperature: String
@@ -157,10 +108,10 @@ class HomeFragment : Fragment() {
         return windSpeed
     }
 
-    private fun setData(it:WeatherResponse){
+    private fun setData(it: WeatherResponse){
         binding.tvDescription.text = it.list.get(0).weather.get(0).description
         binding.ivIcon
-        Glide.with(requireContext())
+        Glide.with(this)
             .load(
                 "https://openweathermap.org/img/wn/" +
                         it.list.get(0).weather.get(0).icon + "@2x.png"
@@ -206,5 +157,21 @@ class HomeFragment : Fragment() {
         return outputDateString
     }
 
+    fun init(){
+        hourAdapter = HourAdapter()
+        hourManager = LinearLayoutManager(this)
+
+        dayAdapter= DayAdapter()
+        dayManager = LinearLayoutManager(this)
+
+        val factory = FavoriteViewModelFactory(
+            Repository.getInstance(
+                this,
+                RemoteDataSourceImp.getInstance(),
+                LocalDataSourceImp.getInstance(this)
+
+            ))
+        viewModel = ViewModelProvider(this, factory).get(FavoriteViewModel::class.java)
+    }
 
 }

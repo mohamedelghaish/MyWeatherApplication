@@ -93,6 +93,8 @@
     <string name="start_date">7 Aug 1999</string>
     <string name="end_time">3:25 PM</string>
     <string name="end_date">1 Nov 202</string>
+    <string name="delete">Delete</string>
+    <string name="canceldialog">Cancel</string>
 
 
     <string-array name="pref_notification">

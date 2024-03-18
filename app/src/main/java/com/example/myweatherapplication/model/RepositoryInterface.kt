@@ -5,7 +5,8 @@ import kotlinx.coroutines.flow.Flow
 interface RepositoryInterface {
     suspend fun getDataFromNetwork(
         latitude: String,
-        longitude: String
+        longitude: String,
+        language: String
     ): Flow<WeatherResponse>
 
     //Favorites

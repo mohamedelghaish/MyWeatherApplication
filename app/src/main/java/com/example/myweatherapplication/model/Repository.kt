@@ -29,9 +29,10 @@ class Repository (
     //Current Retrofit
     override suspend fun getDataFromNetwork(
         latitude: String,
-        longitude: String
+        longitude: String,
+        language: String
     ): Flow<WeatherResponse> {
-        val response = remoteSource.getData(latitude, longitude)
+        val response = remoteSource.getData(latitude, longitude,language)
 
         return flowOf(response)
     }

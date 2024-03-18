@@ -3,6 +3,7 @@ package com.example.myweatherapplication.favorite.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myweatherapplication.ApiState
 import com.example.myweatherapplication.RoomState
 import com.example.myweatherapplication.model.FavoriteLocation
 import com.example.myweatherapplication.model.RepositoryInterface
@@ -16,6 +17,8 @@ class FavoriteViewModel(private var _iRepo: RepositoryInterface) : ViewModel()  
    // private var _favoriteLocation = MutableLiveData<List<FavoriteLocation>>()
     //val favoriteLocation: LiveData<List<FavoriteLocation>> = _favoriteLocation
     var _favoriteLocation:MutableStateFlow<RoomState> = MutableStateFlow(RoomState.Loading)
+
+    var _favoriteLocationDetails:MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
 
     fun getStoredFavoritePlaces() {
         viewModelScope.launch (Dispatchers.IO){
@@ -48,6 +51,14 @@ class FavoriteViewModel(private var _iRepo: RepositoryInterface) : ViewModel()  
             }
         }
         return response
+    }
+
+    fun getDataToFavoriteLocation(latitude: String, longitude: String, language: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            _iRepo.getDataFromNetwork(latitude, longitude, language).collect {
+                _favoriteLocationDetails.value = ApiState.Success(it)
+            }
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.myweatherapplication.favorite.view
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +25,7 @@ import com.example.myweatherapplication.database.LocalDataSourceImp
 import com.example.myweatherapplication.databinding.FragmentFavoriteBinding
 import com.example.myweatherapplication.favorite.viewmodel.FavoriteViewModel
 import com.example.myweatherapplication.favorite.viewmodel.FavoriteViewModelFactory
+import com.example.myweatherapplication.model.FavoriteLocation
 import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.network.RemoteDataSourceImp
 import com.google.android.material.snackbar.Snackbar
@@ -32,7 +35,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment(),OnFavoriteClick {
 
     private lateinit var binding: FragmentFavoriteBinding
     private lateinit var fAdapter:FavoriteAdapter
@@ -100,18 +103,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun initUI(){
-            fAdapter = FavoriteAdapter { favoriteLocation ->
-                var result :Int =0
-                lifecycleScope.async (Dispatchers.IO){
-                    snackbar.setAction("DELETE") {
-                        // Perform deletion action here
-                        result = viewModel.deleteFromRoom(favoriteLocation)
-                    }
-                    snackbar.show()
-
-                }
-                result
-            }
+            fAdapter = FavoriteAdapter (this)
         binding.recyclerViewFavorites.layoutManager= LinearLayoutManager(requireContext())
         binding.recyclerViewFavorites.adapter = fAdapter
         binding.addFavoriteFloatingActionButton.setOnClickListener {
@@ -161,5 +153,45 @@ class FavoriteFragment : Fragment() {
         super.onResume()
         viewModel.getStoredFavoritePlaces()
     }
+
+    override fun deleteFromRoom(favoritePlaces: FavoriteLocation) {
+        showDialog(favoritePlaces)
+    }
+
+    override fun showDetails(latitude: String, longitude: String, language: String) {
+        if (isInternetExist) {
+            val intent = Intent(activity, DetailsFavorite::class.java)
+            intent.putExtra("LAT", latitude)
+            intent.putExtra("LONG", longitude)
+            startActivity(intent)
+        } else {
+            showSnackBar()
+        }
+    }
+
+    private fun showDialog(favoritePlaces: FavoriteLocation){
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.item_dialog, null)
+
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+
+        val dialog = dialogBuilder.create()
+
+        dialogView.findViewById<Button>(R.id.btn_yes).setOnClickListener {
+            viewModel.deleteFromRoom(favoritePlaces)
+
+            // Dismiss the dialog
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.btn_no).setOnClickListener {
+            // Dismiss the dialog
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
 
 }

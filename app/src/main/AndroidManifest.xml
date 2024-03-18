@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyWeatherApplication"
         tools:targetApi="31">
-
+        <activity
+            android:name=".favorite.view.DetailsFavorite"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -47,7 +49,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -13,12 +13,14 @@ class RemoteDataSourceImp :RemoteDataSource {
     private val retrofitHelper = RetrofitHelper.getClient().create(WeatherService::class.java)
     override suspend fun getData(
         latitude: String,
-        longitude: String
+        longitude: String,
+        language: String
 
     ): WeatherResponse {
         val response = retrofitHelper.getWeatherData(
             latitude,
-            longitude
+            longitude,
+            language
 
         )
         return response.body()!!

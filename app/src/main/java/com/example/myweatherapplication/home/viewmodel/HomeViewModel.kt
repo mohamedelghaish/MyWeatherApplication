@@ -34,10 +34,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             )
     }
 
-    fun getWeatherFromNetwork(latitude: String, longitude: String) {
+    fun getWeatherFromNetwork(latitude: String, longitude: String, language: String) {
         viewModelScope.launch(Dispatchers.IO) {
 
-             _iRepo.getDataFromNetwork(latitude, longitude).collect{
+             _iRepo.getDataFromNetwork(latitude, longitude,language).collect{
                  _weatherResponse.value = ApiState.Success(it)
              }
 
