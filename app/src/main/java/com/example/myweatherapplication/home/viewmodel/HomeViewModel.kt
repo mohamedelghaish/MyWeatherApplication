@@ -6,35 +6,41 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.myweatherapplication.ApiState
+import com.example.myweatherapplication.database.LocalDataSourceImp
 import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.model.RepositoryInterface
 import com.example.myweatherapplication.model.WeatherResponse
 import com.example.myweatherapplication.network.RemoteDataSourceImp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private  val TAG = "HomeViewModel"
     private lateinit var _iRepo: RepositoryInterface
-    private var _weatherResponse = MutableLiveData<WeatherResponse>()
-    val weatherResponse: LiveData<WeatherResponse> = _weatherResponse
+     var _weatherResponse:MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
+    //val weatherResponse: LiveData<WeatherResponse> = _weatherResponse
+
 
     init {
         _iRepo =
             Repository.getInstance(
                 application.applicationContext,
-                RemoteDataSourceImp.getInstance()
+                RemoteDataSourceImp.getInstance(),
+                LocalDataSourceImp(application.applicationContext)
+
             )
     }
 
     fun getWeatherFromNetwork(latitude: String, longitude: String) {
-        viewModelScope.launch {
-            val response = _iRepo.getDataFromNetwork(latitude, longitude)
-            Log.i(TAG, "getWeatherFromNetwork: "+ response.city)
-            withContext(Dispatchers.Main) {
-                _weatherResponse.postValue(response)
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+
+             _iRepo.getDataFromNetwork(latitude, longitude).collect{
+                 _weatherResponse.value = ApiState.Success(it)
+             }
+
 
         }
 

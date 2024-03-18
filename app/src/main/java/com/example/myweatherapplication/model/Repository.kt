@@ -1,11 +1,15 @@
 package com.example.myweatherapplication.model
 
 import android.content.Context
+import com.example.myweatherapplication.database.LocalDataSource
 import com.example.myweatherapplication.network.RemoteDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class Repository (
     var context: Context,
-    private var remoteSource: RemoteDataSource
+    var remoteSource: RemoteDataSource,
+    var localSource: LocalDataSource
 
 ) : RepositoryInterface {
 
@@ -13,11 +17,12 @@ class Repository (
         private var weatherRepo: Repository? = null
         fun getInstance(
             context: Context,
-            remoteDataSource: RemoteDataSource
+            remoteDataSource: RemoteDataSource,
+            localDataSource: LocalDataSource
 
         ): Repository {
 
-            return weatherRepo ?: Repository(context, remoteDataSource)
+            return weatherRepo ?: Repository(context, remoteDataSource,localDataSource)
         }
     }
 
@@ -25,10 +30,22 @@ class Repository (
     override suspend fun getDataFromNetwork(
         latitude: String,
         longitude: String
-    ): WeatherResponse {
+    ): Flow<WeatherResponse> {
         val response = remoteSource.getData(latitude, longitude)
 
-        return response
+        return flowOf(response)
+    }
+        //Favorite
+    override suspend fun getFavoriteFromDataBase(): Flow<List<FavoriteLocation>> {
+        return (localSource.getFavoriteFromDataBase())
+    }
+
+    override suspend fun insertToFavorite(favoritePlaces: FavoriteLocation) {
+        localSource.insertToFavorite(favoritePlaces)
+    }
+
+    override suspend fun removeFromFavorite(favoritePlaces: FavoriteLocation): Int {
+        return localSource.removeFromFavorite(favoritePlaces)
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.myweatherapplication
+package com.example.myweatherapplication.settings
 
 import android.content.SharedPreferences
 import android.content.res.Resources
@@ -8,7 +8,9 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreference
+import com.example.myweatherapplication.Const
+import com.example.myweatherapplication.MainActivity
+import com.example.myweatherapplication.R
 import java.util.Locale
 
 class SettingsFragment : PreferenceFragmentCompat() {

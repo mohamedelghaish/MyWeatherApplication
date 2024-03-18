@@ -3,6 +3,7 @@ package com.example.myweatherapplication.home.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -21,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.myweatherapplication.ApiState
 import com.example.myweatherapplication.Const
 import com.example.myweatherapplication.R
 import com.example.myweatherapplication.databinding.FragmentHomeBinding
@@ -34,10 +36,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class HomeFragment : Fragment() {
@@ -51,8 +55,9 @@ class HomeFragment : Fragment() {
     lateinit var dayManager: LinearLayoutManager
     private val REQUEST_CODE_LOCATION_PERMISSION = 5
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    var long:Double = 0.0
-    var lat :Double = 0.0
+    lateinit var long:String
+    lateinit var lat :String
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,156 +90,34 @@ class HomeFragment : Fragment() {
 
 
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        sharedPreferences = requireActivity().getSharedPreferences("location",Context.MODE_PRIVATE)
+        lat = sharedPreferences.getString("latitude","0")!!.toString()
+        long = sharedPreferences.getString("longitude","0")!!.toString()
 
+        //viewModel.getWeatherFromNetwork(lat,long)
+        lifecycleScope.launch(Dispatchers.Main) {viewModel.getWeatherFromNetwork(lat,long) }
+//        viewModel.weatherResponse.observe(viewLifecycleOwner){
+//            setData(it)
+//        }
 
-
-
-
-         //viewModel.getWeatherFromNetwork(31.2596451.toString(),30.0210898.toString())
-        /*viewModel.getWeatherFromNetwork(lat.toString(),long.toString())
-        viewModel.weatherResponse.observe(viewLifecycleOwner){
-
-
-            binding.tvDescription.text= it.list.get(0).weather.get(0).description
-            binding.ivIcon
-            Glide.with(this)
-                .load("https://openweathermap.org/img/wn/" +
-                        it.list.get(0).weather.get(0).icon + "@2x.png")
-                .into(binding.ivIcon)
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-            binding.tvDate.text= inputFormat.parse(it.list.get(0).dt_txt).toString()
-            val temperature: String
-            temperature = DecimalFormat("#").format(it.list.get(0).main.temp - 273.15)
-            binding.tvTempDegree.text = temperature +
-                resources.getString(R.string.temperature_celsius_unit)
-            binding.tvCity.text = it.city.name
-            val maxTemp :String
-            maxTemp = DecimalFormat("#").format(it.list.get(0).main.temp_max -273.15 )
-            binding.tvMaxTemp.text = maxTemp +
-             resources.getString(R.string.temperature_celsius_unit)
-            binding.tvWindSpeed.text = it.list.get(0).wind.speed.toString() + "m/s"
-            binding.tvHumidity.text = it.list.get(0).main.humidity.toString() + "%"
-            binding.tvCloudInfo.text = it.list.get(0).clouds.all.toString() + "%"
-            binding.tvPressure.text= it.list.get(0).main.pressure.toString()
-            binding.tvVisibilityInfo.text = it.list.get(0).visibility.toString() + "m"
-
-
-            binding.RVHourlyInfo.adapter = hourAdapter
-            hourAdapter.submitList(it.list.subList(0,8))
-            hourManager.orientation = LinearLayoutManager.HORIZONTAL
-            binding.RVHourlyInfo.layoutManager = hourManager
-
-            binding.RVWeekInfo.adapter= dayAdapter
-            dayAdapter.submitList(it.list.chunked(8).flatten())
-            dayManager.orientation=LinearLayoutManager.VERTICAL
-            binding.RVWeekInfo.layoutManager = dayManager
-
-
-
-        }*/
-
-    }
-    override fun onStart() {
-        super.onStart()
-        if (checkPermissions()){
-            if (isLocationEnabled()){
-                getFreshLocation()
-            } else {
-                enableLocationServices()
-            }
-        } else{
-            ActivityCompat.requestPermissions(requireActivity(),
-                arrayOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                REQUEST_CODE_LOCATION_PERMISSION
-            )
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    fun getFreshLocation() {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        fusedLocationProviderClient.requestLocationUpdates(
-            LocationRequest.Builder(0).apply {
-                setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-            }.build(),
-            object : LocationCallback(){
-                override fun onLocationResult(locationResult: LocationResult) {
-                    super.onLocationResult(locationResult)
-                    val location = locationResult.lastLocation
-                     // location?.longitude!!
-                      //location?.latitude!!
-//                    location?.latitude?.let { location?.longitude?.let { it1 ->
-//                        getAddressFromLocation(it,
-//                            it1
-//                        )
-//                    } }
-                    viewModel.getWeatherFromNetwork(location?.latitude!!.toString(),location?.longitude!!.toString())
-                    viewModel.weatherResponse.observe(viewLifecycleOwner){it->viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-
-                       setData(it)
-                      }
+        lifecycleScope.launch {
+            viewModel._weatherResponse.collectLatest {
+                when(it){
+                    is ApiState.Success->{
+                        setData(it.data)
                     }
-                    fusedLocationProviderClient.removeLocationUpdates(this)
+                    else->{
+                        Toast.makeText(
+                            requireContext(),
+                            "there is a problem",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            },
-            Looper.myLooper()
-        )
-    }
-
-    /*@SuppressLint("MissingPermission")
-    fun getFreshLocation(onLocationReceived: (latitude: Double, longitude: Double) -> Unit) {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        fusedLocationProviderClient.requestLocationUpdates(
-            LocationRequest.Builder(0).apply {
-                setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            }.build(),
-            object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult) {
-                    super.onLocationResult(locationResult)
-                    val location = locationResult.lastLocation
-                    val latitude = location?.latitude ?: 0.0
-                    val longitude = location?.longitude ?: 0.0
-
-                    fusedLocationProviderClient.removeLocationUpdates(this)
-                    // Invoke the callback with latitude and longitude
-                    onLocationReceived(latitude, longitude)
-                }
-            },
-            Looper.myLooper()
-        )
-    }*/
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode==REQUEST_CODE_LOCATION_PERMISSION){
-            if (grantResults.size>1&& grantResults.get(0)== PackageManager.PERMISSION_GRANTED)
-                getFreshLocation()
+            }
         }
     }
 
-    fun checkPermissions(): Boolean {
-        return (requireActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                requireActivity().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-    }
-
-    fun isLocationEnabled(): Boolean {
-        val locationManager: LocationManager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
-    fun enableLocationServices(){
-        Toast.makeText(requireContext(),"Turn on location", Toast.LENGTH_LONG).show()
-        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-        startActivity(intent)
-    }
 
     private fun getTemperature(temp: Double): String {
         val temperature: String
@@ -275,6 +158,7 @@ class HomeFragment : Fragment() {
         }
         return windSpeed
     }
+
     private fun setData(it:WeatherResponse){
         binding.tvDescription.text = it.list.get(0).weather.get(0).description
         binding.ivIcon
@@ -284,8 +168,8 @@ class HomeFragment : Fragment() {
                         it.list.get(0).weather.get(0).icon + "@2x.png"
             )
             .into(binding.ivIcon)
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-        binding.tvDate.text = inputFormat.parse(it.list.get(0).dt_txt).toString()
+
+        binding.tvDate.text= convertDate(it.list.get(0).dt_txt)
 
         binding.tvTempDegree.text = getTemperature(it.list.get(0).main.temp)
         binding.tvCity.text = it.city.name
@@ -308,6 +192,20 @@ class HomeFragment : Fragment() {
         dayAdapter.submitList(it.list.chunked(8))
         dayManager.orientation = LinearLayoutManager.VERTICAL
         binding.RVWeekInfo.layoutManager = dayManager
+    }
+    fun formatDate(dateInSeconds: Long): String {
+        val time = dateInSeconds * 1000.toLong()
+        val date = Date(time)
+        val dateFormat = SimpleDateFormat("d MMM yyyy", Locale(Const.language))
+        return dateFormat.format(date)
+    }
+
+    fun convertDate(inputDateString:String):String{
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("EEE MMM dd | hh:mm a", Locale.getDefault())
+        val date = inputFormat.parse(inputDateString)
+        val outputDateString = outputFormat.format(date)
+        return outputDateString
     }
 
 
