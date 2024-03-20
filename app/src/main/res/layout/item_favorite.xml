@@ -38,7 +38,7 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:text="Sunny"
+            android:text="@string/sunny"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

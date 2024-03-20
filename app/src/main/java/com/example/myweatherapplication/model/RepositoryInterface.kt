@@ -9,6 +9,11 @@ interface RepositoryInterface {
         language: String
     ): Flow<WeatherResponse>
 
+
+    //RoomCurrent
+    suspend fun getWeatherFromDataBase(): Flow<List<WeatherResponse>>
+    suspend fun insertCurrentDataToRoom(weatherResponse: WeatherResponse)
+
     //Favorites
     suspend fun getFavoriteFromDataBase(): Flow<List<FavoriteLocation>>
     suspend fun insertToFavorite(favoritePlaces: FavoriteLocation)

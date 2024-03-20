@@ -2,6 +2,7 @@ package com.example.myweatherapplication.favorite.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -53,7 +54,19 @@ class DetailsFavorite : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel._favoriteLocationDetails.collectLatest {
                 when(it){
+                    is ApiState.Loading->{
+                        binding.progressBarHome.visibility = View.VISIBLE
+                        binding.homeLayout.visibility = View.GONE
+                        binding.linearLayoutHome.visibility = View.GONE
+                        binding.RVWeekInfo.visibility = View.GONE
+                        binding.RVHourlyInfo.visibility= View.GONE
+                    }
                     is ApiState.Success->{
+                        binding.progressBarHome.visibility = View.GONE
+                        binding.homeLayout.visibility = View.VISIBLE
+                        binding.linearLayoutHome.visibility = View.VISIBLE
+                        binding.RVWeekInfo.visibility = View.VISIBLE
+                        binding.RVHourlyInfo.visibility=View.VISIBLE
                         setData(it.data)
                     }
                     else->{

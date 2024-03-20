@@ -1,5 +1,9 @@
 package com.example.myweatherapplication.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.myweatherapplication.database.WeatherConverter
 import org.jetbrains.annotations.Nullable
 
 /*data class WeatherResponse
@@ -203,8 +207,9 @@ data class Temperature(
 //    val lon: Double
 //)
 
-
+@Entity(tableName = "current_weather")
 data class WeatherResponse(
+    @PrimaryKey(autoGenerate = false)
     val cod: String,
     val message: Int,
     val cnt: Int,

@@ -159,11 +159,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     editor.apply()
                     Const.latitude=location?.latitude.toString()
                     Const.longitude= location?.longitude.toString()
-//                    location?.latitude?.let { location?.longitude?.let { it1 ->
-//                        getAddressFromLocation(it,
-//                            it1
-//                        )
-//                    } }
+
                     fusedLocationProviderClient.removeLocationUpdates(this)
                 }
             },

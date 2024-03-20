@@ -36,7 +36,7 @@
             android:id="@+id/tempreature_hour_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="25°C"
+            android:text="@string/_25_c"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:textAlignment="center"

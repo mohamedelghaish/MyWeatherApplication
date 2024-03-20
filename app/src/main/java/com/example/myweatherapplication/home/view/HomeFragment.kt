@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -58,6 +60,8 @@ class HomeFragment : Fragment() {
     lateinit var long:String
     lateinit var lat :String
     private lateinit var sharedPreferences: SharedPreferences
+    private var connectivityManager: ConnectivityManager? = null
+    private var networkInfo: NetworkInfo? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +85,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        networkInfo = connectivityManager!!.activeNetworkInfo
+
         hourAdapter = HourAdapter()
         hourManager = LinearLayoutManager(requireContext())
 
@@ -94,14 +101,33 @@ class HomeFragment : Fragment() {
         lat = sharedPreferences.getString("latitude","0")!!.toString()
         long = sharedPreferences.getString("longitude","0")!!.toString()
 
+        if (networkInfo==null){
+           viewModel.getCurrentWeatherFromRoom()
+        } else {
+            lifecycleScope.launch(Dispatchers.Main) {viewModel.getWeatherFromNetwork(lat,long,Const.language) }
+        }
 
-        lifecycleScope.launch(Dispatchers.Main) {viewModel.getWeatherFromNetwork(lat,long,"en") }
+
+        //lifecycleScope.launch(Dispatchers.Main) {viewModel.getWeatherFromNetwork(lat,long,"en") }
 
 
         lifecycleScope.launch {
             viewModel._weatherResponse.collectLatest {
                 when(it){
+                    is ApiState.Loading->{
+                        binding.progressBarHome.visibility = View.VISIBLE
+                        binding.homeLayout.visibility = View.GONE
+                        binding.linearLayoutHome.visibility = View.GONE
+                        binding.RVWeekInfo.visibility = View.GONE
+                        binding.RVHourlyInfo.visibility=View.GONE
+                    }
                     is ApiState.Success->{
+                        binding.progressBarHome.visibility = View.GONE
+                        binding.homeLayout.visibility = View.VISIBLE
+                        binding.linearLayoutHome.visibility = View.VISIBLE
+                        binding.RVWeekInfo.visibility = View.VISIBLE
+                        binding.RVHourlyInfo.visibility=View.VISIBLE
+                        viewModel.insertCurrentDataToRoom(it.data)
                         setData(it.data)
                     }
                     else->{

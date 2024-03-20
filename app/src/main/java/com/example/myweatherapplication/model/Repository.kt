@@ -36,7 +36,16 @@ class Repository (
 
         return flowOf(response)
     }
-        //Favorite
+
+    override suspend fun getWeatherFromDataBase(): Flow<List<WeatherResponse>> {
+        return localSource.getWeatherFromDataBase()
+    }
+
+    override suspend fun insertCurrentDataToRoom(weatherResponse: WeatherResponse) {
+        localSource.insertCurrentDataToRoom(weatherResponse)
+    }
+
+    //Favorite
     override suspend fun getFavoriteFromDataBase(): Flow<List<FavoriteLocation>> {
         return (localSource.getFavoriteFromDataBase())
     }

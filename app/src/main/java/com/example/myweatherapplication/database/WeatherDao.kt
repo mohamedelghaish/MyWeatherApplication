@@ -6,9 +6,21 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.myweatherapplication.model.FavoriteLocation
+import com.example.myweatherapplication.model.WeatherResponse
 import kotlinx.coroutines.flow.Flow
 @Dao
 interface WeatherDao {
+
+
+    //Stored Current Place
+    @Query("SELECT * From current_weather")
+     fun getStoredWeather():  Flow<List<WeatherResponse>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCurrentToRoom(weatherResponse: WeatherResponse): Long
+
+    //-----------------------------------------------------------------------------------------------------//
+
     //Stored from Favorite
     @Query("SELECT * From favorite")
      fun getStoredFavorite(): Flow<List<FavoriteLocation>>

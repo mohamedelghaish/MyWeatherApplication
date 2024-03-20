@@ -2,6 +2,7 @@ package com.example.myweatherapplication.database
 
 import android.content.Context
 import com.example.myweatherapplication.model.FavoriteLocation
+import com.example.myweatherapplication.model.WeatherResponse
 import kotlinx.coroutines.flow.Flow
 
 class LocalDataSourceImp(context: Context): LocalDataSource {
@@ -19,6 +20,14 @@ class LocalDataSourceImp(context: Context): LocalDataSource {
                 instance = LocalDataSourceImp(context)
             return instance as LocalDataSourceImp
         }
+    }
+    //Current
+    override suspend fun getWeatherFromDataBase(): Flow<List<WeatherResponse>> {
+       return weatherDao!!.getStoredWeather()
+    }
+
+    override suspend fun insertCurrentDataToRoom(weatherResponse: WeatherResponse) {
+        weatherDao!!.insertCurrentToRoom(weatherResponse)
     }
 
     //Favorite

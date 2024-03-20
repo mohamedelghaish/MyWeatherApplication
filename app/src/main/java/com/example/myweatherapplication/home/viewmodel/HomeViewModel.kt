@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myweatherapplication.ApiState
 import com.example.myweatherapplication.database.LocalDataSourceImp
+import com.example.myweatherapplication.model.FavoriteLocation
 import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.model.RepositoryInterface
 import com.example.myweatherapplication.model.WeatherResponse
@@ -46,10 +47,25 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-     /*suspend fun getWeatherFromNetwork(latitude: String, longitude: String) {
+    fun insertCurrentDataToRoom(weatherResponse: WeatherResponse){
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    _iRepo.insertCurrentDataToRoom(weatherResponse)
+                }
+            }
 
-            val response = _iRepo.getDataFromNetwork(latitude, longitude)
-            Log.i(TAG, "getWeatherFromNetwork: "+ response.timezone)
-                _weatherResponse.postValue(response)
-    }*/
+    }
+
+    fun getCurrentWeatherFromRoom(){
+        viewModelScope.launch(Dispatchers.IO) {
+
+            _iRepo.getWeatherFromDataBase().collect{
+                _weatherResponse.value = ApiState.Success(it.get(0))
+            }
+
+
+        }
+    }
+
+
 }

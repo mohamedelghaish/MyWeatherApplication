@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="@drawable/background"
     tools:context=".settings.SettingsFragment">
 
     <!-- Notification Preference Category -->
@@ -44,7 +45,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_language"
             android:drawablePadding="10dp"
-            android:text="select_language"
+            android:text="@string/select_language"
             android:textColor="@color/black" />
 
         <RadioGroup
@@ -57,19 +58,19 @@
                 android:id="@+id/radio_auto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="auto" />
+                android:text="@string/auto" />
 
             <RadioButton
                 android:id="@+id/radio_english"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="english" />
+                android:text="@string/english" />
 
             <RadioButton
                 android:id="@+id/radio_spanish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Arabic" />
+                android:text="@string/arabic" />
 
             <!-- RadioButtons here -->
         </RadioGroup>
@@ -89,7 +90,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_temperature"
             android:drawablePadding="10dp"
-            android:text="temperature"
+            android:text="@string/temperature"
             android:textColor="@color/black" />
 
         <RadioGroup
@@ -102,19 +103,19 @@
                 android:id="@+id/radio_kelvin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="kelvin" />
+                android:text="@string/temperature_kelvin" />
 
             <RadioButton
                 android:id="@+id/radio_celsius"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="celsius" />
+                android:text="@string/temperature_celsius" />
 
             <RadioButton
                 android:id="@+id/radio_fahrenheit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="fahrenheit" />
+                android:text="@string/temperature_fahrenheit" />
 
             <!-- RadioButtons here -->
         </RadioGroup>
@@ -131,7 +132,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_wind"
             android:drawablePadding="10dp"
-            android:text="wind_speed"
+            android:text="@string/wind_speed"
             android:textColor="@color/black" />
 
 
@@ -145,19 +146,19 @@
                 android:id="@+id/radio_ms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ms" />
+                android:text="@string/ms" />
 
             <RadioButton
                 android:id="@+id/radio_kph"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="kph" />
+                android:text="@string/kph" />
 
             <RadioButton
                 android:id="@+id/radio_mph"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="mph" />
+                android:text="@string/mph" />
 
         </RadioGroup>
     </LinearLayout>

@@ -15,15 +15,17 @@
         android:id="@+id/no_favorite_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10sp"
+        android:gravity="center"
         android:text="@string/no_favorite"
-        android:textColor="?colorOnSecondary"
-        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textSize="25dp"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/addFavorite_floatingActionButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_favorites"
@@ -47,4 +49,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_favorite" />
+
+    <ImageView
+        android:id="@+id/imageView_fav"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="33dp"
+        android:src="@drawable/favorite"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/no_favorite_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
