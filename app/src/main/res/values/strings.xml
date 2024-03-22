@@ -111,6 +111,9 @@
     <string name="home">Home</string>
     <string name="settings">Settings</string>
     <string name="favorite">Favorite</string>
+    <string name="cloud_info">0%</string>
+    <string name="pressure_info">0</string>
+    <string name="_18">18%</string>
 
 
     <string-array name="pref_notification">

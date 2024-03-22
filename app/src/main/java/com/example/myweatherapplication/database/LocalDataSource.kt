@@ -13,7 +13,7 @@ interface LocalDataSource {
 
     //Favorites
     suspend fun getFavoriteFromDataBase(): Flow <List<FavoriteLocation>>
-    suspend fun insertToFavorite(favoritePlaces: FavoriteLocation)
-    suspend fun removeFromFavorite(favoritePlaces: FavoriteLocation) : Int
+    suspend fun insertToFavorite(favoriteLocation: FavoriteLocation)
+    suspend fun removeFromFavorite(favoriteLocation: FavoriteLocation) : Int
 
 }

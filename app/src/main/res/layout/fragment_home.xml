@@ -119,7 +119,6 @@
                             android:layout_width="34dp"
                             android:layout_height="34dp"
                             android:layout_gravity="center"
-
                             app:srcCompat="@drawable/ic_temperature" />
 
 
@@ -178,7 +177,7 @@
                             android:id="@+id/tv_cloud_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="0%"
+                            android:text="@string/cloud_info"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -248,7 +247,7 @@
                             android:id="@+id/tv_pressure"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:text="@string/pressure_info"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
                     </LinearLayout>
@@ -280,7 +279,7 @@
                             android:id="@+id/tv_humidity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="18%"
+                            android:text="@string/_18"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textStyle="bold" />
@@ -298,7 +297,7 @@
                             android:id="@+id/visibility"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Visibility"
+                            android:text="@string/visibility"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 

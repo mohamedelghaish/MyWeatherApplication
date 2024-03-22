@@ -5,12 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.location.Geocoder
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.DisplayMetrics
 import android.view.MenuItem
 import android.widget.Toast
 
@@ -41,11 +44,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
     override fun onCreate(savedInstanceState: Bundle?) {
+        setAppLocale(Const.language)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         sharedPreferences= this.getSharedPreferences("location",Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
+
+
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -180,6 +186,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //tvLocation.text = addresses?.get(0)?.getAddressLine(0).toString()
 
         }
+    }
+
+    private fun setAppLocale(localeCode: String) {
+        val resources: Resources = resources
+        val dm: DisplayMetrics = resources.displayMetrics
+        val config: Configuration = resources.configuration
+        config.setLocale(Locale(localeCode.lowercase(Locale.ROOT)))
+        resources.updateConfiguration(config, dm)
+        Locale.setDefault(Locale.forLanguageTag(Const.language))
     }
 
 

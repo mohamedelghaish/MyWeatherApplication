@@ -39,7 +39,7 @@ class LocalDataSourceImp(context: Context): LocalDataSource {
          weatherDao!!.insertToFavorite(favoriteLocation)
     }
 
-    override suspend fun removeFromFavorite(favoritePlaces: FavoriteLocation): Int {
-       return weatherDao!!.deleteFromFavorite(favoritePlaces)
+    override suspend fun removeFromFavorite(favoriteLocation: FavoriteLocation): Int {
+       return weatherDao!!.deleteFromFavorite(favoriteLocation)
     }
 }

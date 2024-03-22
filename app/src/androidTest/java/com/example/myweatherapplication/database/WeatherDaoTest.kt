@@ -53,7 +53,7 @@ class WeatherDaoTest {
     fun insertCurrentToRoom_test() {
         runBlockingTest {
             // Create a WeatherResponse object to be used in the test
-            val weatherResponse = WeatherResponse(
+             weatherResponse = WeatherResponse(
                 cod = "",
                 message = 0,
                 cnt = 0,
@@ -79,7 +79,7 @@ class WeatherDaoTest {
     }
 
     @Test
-    fun testgetStoredWeather() = runBlockingTest {
+    fun getStoredWeather() = runBlockingTest {
         // Insert some test data
         val testData = listOf(
             WeatherResponse("1", 0, 0, emptyList(), City(1, "City1", Coord(0.0, 0.0), "Country1", 1000, 0, 0L, 0L)),
