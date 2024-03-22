@@ -103,7 +103,7 @@ class FavoriteFragment : Fragment(),OnFavoriteClick {
     private fun setViewModel(){
         val factory = FavoriteViewModelFactory(
             Repository.getInstance(
-                requireContext(),
+
                 RemoteDataSourceImp.getInstance(),
                 LocalDataSourceImp.getInstance(requireContext())
 

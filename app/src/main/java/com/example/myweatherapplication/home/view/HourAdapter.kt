@@ -38,8 +38,10 @@ class HourAdapter : ListAdapter<WeatherEntry, HourAdapter.ViewHolder>(WeatherEnt
 
         holder.tempreatureDegree.text = convertTemperature(currentObj.main.temp)
         Glide.with(context)
-            .load("https://openweathermap.org/img/wn/" +
-                    currentObj.weather.firstOrNull()?.icon + "@2x.png")
+            .load(
+                "https://openweathermap.org/img/wn/" +
+                        currentObj.weather.firstOrNull()?.icon + "@2x.png"
+            )
             .into(holder.statusImg)
     }
 

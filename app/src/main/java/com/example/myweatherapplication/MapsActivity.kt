@@ -53,7 +53,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val factory = FavoriteViewModelFactory(
             Repository.getInstance(
-                this,
+
                 RemoteDataSourceImp.getInstance(),
                 LocalDataSourceImp.getInstance(this)
 

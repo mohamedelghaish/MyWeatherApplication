@@ -28,7 +28,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     init {
         _iRepo =
             Repository.getInstance(
-                application.applicationContext,
+
                 RemoteDataSourceImp.getInstance(),
                 LocalDataSourceImp(application.applicationContext)
 

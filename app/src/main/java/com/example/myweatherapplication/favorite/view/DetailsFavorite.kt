@@ -179,7 +179,7 @@ class DetailsFavorite : AppCompatActivity() {
 
         val factory = FavoriteViewModelFactory(
             Repository.getInstance(
-                this,
+
                 RemoteDataSourceImp.getInstance(),
                 LocalDataSourceImp.getInstance(this)
 
