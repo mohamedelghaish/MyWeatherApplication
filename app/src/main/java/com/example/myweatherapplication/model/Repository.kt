@@ -7,19 +7,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 class Repository (
-
     var remoteSource: RemoteDataSource,
     var localSource: LocalDataSource
-
 ) : RepositoryInterface {
 
     companion object {
         private var weatherRepo: Repository? = null
         fun getInstance(
-
             remoteDataSource: RemoteDataSource,
             localDataSource: LocalDataSource
-
         ): Repository {
 
             return weatherRepo ?: Repository( remoteDataSource,localDataSource)
