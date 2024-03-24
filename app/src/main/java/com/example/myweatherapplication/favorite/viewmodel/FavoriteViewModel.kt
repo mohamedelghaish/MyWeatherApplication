@@ -30,25 +30,22 @@ class FavoriteViewModel(private var _iRepo: RepositoryInterface) : ViewModel()  
 
 
     fun insertToFavorite(favoritePlaces: FavoriteLocation) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+        viewModelScope.launch (Dispatchers.IO){
+
                 _iRepo.insertToFavorite(favoritePlaces)
-            }
+
         }
     }
 
     fun deleteFromRoom(favoritePlaces: FavoriteLocation) :Int{
         var response:Int =0
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO) {
              response = _iRepo.removeFromFavorite(favoritePlaces)
-            withContext(Dispatchers.Main) {
                 if (response > 0) {
                     getStoredFavoritePlaces()
                 } else {
                     Log.i("Favorite", "deleteFromRoom: failed")
                 }
-
-            }
         }
         return response
     }

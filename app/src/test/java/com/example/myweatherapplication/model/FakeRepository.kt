@@ -2,12 +2,15 @@ package com.example.myweatherapplication.model
 
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 
 class FakeRepository : RepositoryInterface {
 
-    private val fakeWeatherResponseList = mutableListOf<WeatherResponse>()
-    private val fakeFavoriteLocationList = mutableListOf<FavoriteLocation>()
+     val fakeWeatherResponseList = mutableListOf<WeatherResponse>()
+        val fakeFavoriteLocationList = mutableListOf<FavoriteLocation>()
+        //val fakeFavoriteLocation = MutableStateFlow<List<FavoriteLocation>>(emptyList())
+
 
     override suspend fun getDataFromNetwork(
         latitude: String,
