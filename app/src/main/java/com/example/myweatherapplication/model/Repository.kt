@@ -54,4 +54,20 @@ class Repository (
         return localSource.removeFromFavorite(favoritePlaces)
     }
 
+    override suspend fun insertAlertToRoom(savedAlerts: SavedAlerts): Long {
+        return localSource.insertAlertToRoom(savedAlerts)
+    }
+
+    override suspend fun getStoredAlerts(): Flow<List<SavedAlerts>> {
+        return localSource.getStoredAlerts()
+    }
+
+    override suspend fun deleteAlertFromRoom(id: Int): Int {
+        return localSource.deleteAlertFromRoom(id)
+    }
+
+    override suspend fun getAlertFromRoom(id: Int): SavedAlerts {
+        return localSource.getAlertFromRoom(id)
+    }
+
 }

@@ -22,6 +22,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.myweatherapplication.alert.view.AlertFragment
 import com.example.myweatherapplication.favorite.view.FavoriteFragment
 import com.example.myweatherapplication.home.view.HomeFragment
 import com.example.myweatherapplication.settings.SettingsFragment
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.fragment_container, FavoriteFragment()).commit()
 
             R.id.nav_alert-> supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,AlertFragment()).commit()
+                .replace(R.id.fragment_container, AlertFragment()).commit()
 
         }
         drawerLayout.closeDrawer(GravityCompat.START)

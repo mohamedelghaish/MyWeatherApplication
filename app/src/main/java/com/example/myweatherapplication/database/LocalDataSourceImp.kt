@@ -2,6 +2,7 @@ package com.example.myweatherapplication.database
 
 import android.content.Context
 import com.example.myweatherapplication.model.FavoriteLocation
+import com.example.myweatherapplication.model.SavedAlerts
 import com.example.myweatherapplication.model.WeatherResponse
 import kotlinx.coroutines.flow.Flow
 
@@ -41,5 +42,22 @@ class LocalDataSourceImp(context: Context): LocalDataSource {
 
     override suspend fun removeFromFavorite(favoriteLocation: FavoriteLocation): Int {
        return weatherDao!!.deleteFromFavorite(favoriteLocation)
+    }
+
+    override suspend fun getStoredAlerts(): Flow<List<SavedAlerts>> {
+        return weatherDao!!.getStoredAlerts()
+    }
+
+    override suspend fun insertAlertToRoom(alerts: SavedAlerts): Long {
+        return weatherDao!!.insertAlertToRoom(alerts)
+    }
+
+    override suspend fun deleteAlertFromRoom(id: Int): Int {
+        return weatherDao!!.deleteAlertFromRoom(id)
+    }
+
+    override suspend fun getAlertFromRoom(id: Int): SavedAlerts {
+        val response = weatherDao?.getAlertFromRoom(id)
+        return response!!
     }
 }

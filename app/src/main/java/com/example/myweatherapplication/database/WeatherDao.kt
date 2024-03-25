@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.myweatherapplication.model.FavoriteLocation
+import com.example.myweatherapplication.model.SavedAlerts
 import com.example.myweatherapplication.model.WeatherResponse
 import kotlinx.coroutines.flow.Flow
 @Dao
@@ -30,4 +31,22 @@ interface WeatherDao {
 
     @Delete
     suspend fun deleteFromFavorite(favoritePlaces: FavoriteLocation): Int
+
+    //-----------------------------------------------------------------------------------------------------//
+
+    //Stored from alert
+
+    @Query("SELECT * From alerts")
+     fun getStoredAlerts(): Flow<List<SavedAlerts>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAlertToRoom(alerts: SavedAlerts): Long
+
+
+    @Query("DELETE FROM alerts where id = :id")
+    suspend fun deleteAlertFromRoom(id: Int): Int
+
+
+    @Query("select * from alerts where id = :id")
+     fun getAlertFromRoom(id: Int): SavedAlerts
 }

@@ -74,7 +74,7 @@ class FavoriteFragment : Fragment(),OnFavoriteClick {
                     }
                     is RoomState.Success ->{
                         if (it.data.isEmpty()) {
-                            // Handle case when there are no favorite locations
+
                             binding.noFavoriteTextView.visibility = View.VISIBLE
                             binding.imageViewFav.visibility=View.VISIBLE
                             binding.recyclerViewFavorites.visibility = View.GONE

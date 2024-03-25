@@ -18,4 +18,10 @@ interface RepositoryInterface {
     suspend fun getFavoriteFromDataBase(): Flow<List<FavoriteLocation>>
     suspend fun insertToFavorite(favoritePlaces: FavoriteLocation)
     suspend fun removeFromFavorite(favoritePlaces: FavoriteLocation) : Int
+
+    //Alerts
+    suspend fun insertAlertToRoom(savedAlerts: SavedAlerts): Long
+    suspend fun getStoredAlerts(): Flow<List<SavedAlerts>>
+    suspend fun deleteAlertFromRoom(id: Int): Int
+    suspend fun getAlertFromRoom(id: Int): SavedAlerts
 }

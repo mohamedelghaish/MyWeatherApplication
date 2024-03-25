@@ -41,6 +41,7 @@ class FavoriteViewModel(private var _iRepo: RepositoryInterface) : ViewModel()  
         var response:Int =0
         viewModelScope.launch (Dispatchers.IO) {
              response = _iRepo.removeFromFavorite(favoritePlaces)
+
                 if (response > 0) {
                     getStoredFavoritePlaces()
                 } else {
