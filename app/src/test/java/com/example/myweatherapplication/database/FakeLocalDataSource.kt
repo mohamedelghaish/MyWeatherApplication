@@ -1,6 +1,7 @@
 package com.example.myweatherapplication.database
 
 import com.example.myweatherapplication.model.FavoriteLocation
+import com.example.myweatherapplication.model.SavedAlerts
 import com.example.myweatherapplication.model.WeatherResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -33,6 +34,22 @@ class FakeLocalDataSource:LocalDataSource {
     override suspend fun removeFromFavorite(favoriteLocation: FavoriteLocation): Int {
         // Remove the favorite location from fake data list and return the result
         return if (fakeFavoriteData.remove(favoriteLocation)) 1 else 0
+    }
+
+    override suspend fun getStoredAlerts(): Flow<List<SavedAlerts>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertAlertToRoom(alerts: SavedAlerts): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteAlertFromRoom(id: Int): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAlertFromRoom(id: Int): SavedAlerts {
+        TODO("Not yet implemented")
     }
 }
 

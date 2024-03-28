@@ -50,6 +50,22 @@ class FakeRepository : RepositoryInterface {
         return fakeFavoriteLocationList.removeAll { it == favoritePlaces }.let { if (it) 1 else 0 }
     }
 
+    override suspend fun insertAlertToRoom(savedAlerts: SavedAlerts): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getStoredAlerts(): Flow<List<SavedAlerts>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteAlertFromRoom(id: Int): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAlertFromRoom(id: Int): SavedAlerts {
+        TODO("Not yet implemented")
+    }
+
     private fun createFakeWeatherResponse(): WeatherResponse {
         // Create and return a fake WeatherResponse object with default or empty values
         return WeatherResponse(

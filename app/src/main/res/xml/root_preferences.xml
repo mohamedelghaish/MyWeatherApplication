@@ -40,4 +40,16 @@
             android:title="@string/wind_speed" />
     </PreferenceCategory>
 
+
+    <PreferenceCategory android:title="@string/get_location">
+        <ListPreference
+            android:defaultValue="GPS"
+            android:entries="@array/pref_location_names"
+            android:entryValues="@array/pref_location_codes"
+            android:icon="@drawable/iclocation"
+            android:key="location_choose"
+            android:summary="%s"
+            android:title="@string/set" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

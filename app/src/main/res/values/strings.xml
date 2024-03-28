@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyWeatherApplication</string>
+    <string name="app_name">Weather App</string>
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
 
@@ -114,6 +114,9 @@
     <string name="cloud_info">0%</string>
     <string name="pressure_info">0</string>
     <string name="_18">18%</string>
+    <string name="get_location">Get Location</string>
+    <string name="set">Set</string>
+    <string name="title_activity_home_maps">Home MAp</string>
 
 
     <string-array name="pref_notification">
@@ -159,5 +162,16 @@
         <item>M/S</item>
         <item>M/H</item>
     </string-array>
+
+    <string-array name="pref_location_names">
+        <item>@string/location_gps</item>
+        <item>@string/location_map</item>
+    </string-array>
+
+    <string-array name="pref_location_codes">
+        <item>GPS</item>
+        <item>MAP</item>
+    </string-array>
+<!--    <string name="title_activity_home_maps">HomeMapsActivity</string>-->
 
 </resources>

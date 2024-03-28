@@ -104,11 +104,14 @@ class HomeFragment : Fragment() {
         if (networkInfo==null){
            viewModel.getCurrentWeatherFromRoom()
         } else {
+            if (Const.location =="MAP"){
+
+                lifecycleScope.launch(Dispatchers.Main) {viewModel.getWeatherFromNetwork(Const.latitude,Const.longitude,Const.language) }
+
+            } else
             lifecycleScope.launch(Dispatchers.Main) {viewModel.getWeatherFromNetwork(lat,long,Const.language) }
         }
 
-
-        //lifecycleScope.launch(Dispatchers.Main) {viewModel.getWeatherFromNetwork(lat,long,"en") }
 
 
         lifecycleScope.launch {

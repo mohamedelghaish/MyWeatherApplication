@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.graphics.Color
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -19,9 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.myweatherapplication.AlarmNotify
 import com.example.myweatherapplication.AlertState
-import com.example.myweatherapplication.ApiState
 import com.example.myweatherapplication.R
 import com.example.myweatherapplication.alert.viewmodel.AlertViewModel
 import com.example.myweatherapplication.alert.viewmodel.AlertViewModelFactory
@@ -55,6 +52,9 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
     private var alarmStartHour: Int = 0
     private var alarmStartMinute: Int = 0
     private var Delay: Long = 0L
+    companion object{
+         var alarmID:Int =0
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +70,7 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
         initUI()
         initViewModel()
         updateUI()
+        
     }
 
     private fun initUI() {
@@ -247,7 +248,11 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
             repetitions,
             System.currentTimeMillis()
         )
+        
         viewModel.insertAlert(alert)
+       // alarmID = alert.id!!
+       // Log.i(TAG, "insertToRoom: $alarmID")
+        
     }
 
     private fun calculateDifferenceBetweenDates(startDate: String, endDate: String): Long {

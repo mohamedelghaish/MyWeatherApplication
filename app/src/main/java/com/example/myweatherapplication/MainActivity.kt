@@ -160,7 +160,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     super.onLocationResult(locationResult)
                     val location = locationResult.lastLocation
 
-
                     editor.putString("latitude",location?.latitude.toString())
                     editor.putString("longitude",location?.longitude.toString())
                     editor.apply()

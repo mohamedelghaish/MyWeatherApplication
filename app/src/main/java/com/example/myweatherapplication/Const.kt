@@ -7,6 +7,7 @@ class Const {
         var latitude: String = ""
         var tempUnit = "celsius"
         var windSpeedUnit = "M/S"
-        var notificationMethod = true
+        var location = ""
+
     }
 }

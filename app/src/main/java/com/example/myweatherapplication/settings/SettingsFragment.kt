@@ -1,5 +1,6 @@
 package com.example.myweatherapplication.settings
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
@@ -9,6 +10,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.example.myweatherapplication.Const
+import com.example.myweatherapplication.HomeMapsActivity
+//import com.example.myweatherapplication.HomeMapsActivity
 import com.example.myweatherapplication.MainActivity
 import com.example.myweatherapplication.R
 import java.util.Locale
@@ -42,6 +45,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val windSpeedPreference: ListPreference = findPreference("wind_speed")!!
         windSpeedPreference.setOnPreferenceChangeListener { _, windSpeedUnit ->
             Const.windSpeedUnit = windSpeedUnit as String
+            true
+        }
+
+        val LocationPreference: ListPreference = findPreference("location_choose")!!
+        LocationPreference.setOnPreferenceChangeListener { _, location ->
+            Const.location = location as String
+            if (Const.location == "MAP"){
+                val intent = Intent(requireContext(), HomeMapsActivity::class.java)
+                startActivity(intent)
+            }
             true
         }
 

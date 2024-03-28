@@ -1,15 +1,14 @@
-package com.example.myweatherapplication
+package com.example.myweatherapplication.alert.view
 
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.myweatherapplication.R
 import com.example.myweatherapplication.database.LocalDataSourceImp
 import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.network.RemoteDataSourceImp
@@ -17,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
 
 class AlarmNotify(private var context: Context, workerParams: WorkerParameters):
@@ -39,8 +39,12 @@ class AlarmNotify(private var context: Context, workerParams: WorkerParameters):
                 .get(0).list.get(0).weather.get(0).description + " " + DecimalFormat("#").format( repository.localSource.getWeatherFromDataBase().first().get(0)
                 .list.get(0).main.temp  - 273.15) + "°C"
 
-
             display(currentDescription)
+//            withContext(Dispatchers.IO){
+//                launch {
+//                    repository.deleteAlertFromRoom(AlertFragment.alarmID)
+//                }
+//            }
         }
         return currentDescription
     }
