@@ -1,14 +1,10 @@
 package com.example.myweatherapplication.home.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.myweatherapplication.ApiState
+import com.example.myweatherapplication.network.ApiState
 import com.example.myweatherapplication.database.LocalDataSourceImp
-import com.example.myweatherapplication.model.FavoriteLocation
 import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.model.RepositoryInterface
 import com.example.myweatherapplication.model.WeatherResponse

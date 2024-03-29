@@ -18,7 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.myweatherapplication.AlertState
+import com.example.myweatherapplication.database.AlertState
 import com.example.myweatherapplication.R
 import com.example.myweatherapplication.alert.viewmodel.AlertViewModel
 import com.example.myweatherapplication.alert.viewmodel.AlertViewModelFactory

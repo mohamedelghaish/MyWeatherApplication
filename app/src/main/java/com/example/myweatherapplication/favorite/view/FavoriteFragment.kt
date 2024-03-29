@@ -18,9 +18,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myweatherapplication.MapsActivity
 import com.example.myweatherapplication.R
-import com.example.myweatherapplication.RoomState
+import com.example.myweatherapplication.database.RoomState
 import com.example.myweatherapplication.database.LocalDataSourceImp
 import com.example.myweatherapplication.databinding.FragmentFavoriteBinding
 import com.example.myweatherapplication.favorite.viewmodel.FavoriteViewModel
@@ -29,8 +28,6 @@ import com.example.myweatherapplication.model.FavoriteLocation
 import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.network.RemoteDataSourceImp
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

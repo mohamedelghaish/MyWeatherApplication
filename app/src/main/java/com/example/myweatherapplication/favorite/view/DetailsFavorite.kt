@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.myweatherapplication.ApiState
+import com.example.myweatherapplication.network.ApiState
 import com.example.myweatherapplication.Const
 import com.example.myweatherapplication.R
 import com.example.myweatherapplication.database.LocalDataSourceImp
@@ -20,7 +20,6 @@ import com.example.myweatherapplication.home.view.HourAdapter
 import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.model.WeatherResponse
 import com.example.myweatherapplication.network.RemoteDataSourceImp
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat

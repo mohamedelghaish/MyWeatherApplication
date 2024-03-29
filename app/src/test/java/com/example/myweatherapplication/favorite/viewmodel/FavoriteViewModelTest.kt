@@ -1,22 +1,15 @@
 package com.example.myweatherapplication.favorite.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.myweatherapplication.ApiState
-import com.example.myweatherapplication.RoomState
+import com.example.myweatherapplication.database.RoomState
 import com.example.myweatherapplication.model.FakeRepository
 import com.example.myweatherapplication.model.FavoriteLocation
 import com.example.myweatherapplication.model.RepositoryInterface
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.not
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -98,7 +91,7 @@ class FavoriteViewModelTest {
     }
 
     @Test
-    fun `get data from network`() = runBlockingTest {
+    fun getdatafromnetwork() = runBlockingTest {
         // Given
         val latitude = "1.0"
         val longitude = "2.0"

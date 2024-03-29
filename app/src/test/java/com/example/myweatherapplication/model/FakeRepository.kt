@@ -2,13 +2,13 @@ package com.example.myweatherapplication.model
 
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 
 class FakeRepository : RepositoryInterface {
 
      val fakeWeatherResponseList = mutableListOf<WeatherResponse>()
         val fakeFavoriteLocationList = mutableListOf<FavoriteLocation>()
+    val fakeSavedAlertsList = mutableListOf<SavedAlerts>()
         //val fakeFavoriteLocation = MutableStateFlow<List<FavoriteLocation>>(emptyList())
 
 
@@ -51,15 +51,17 @@ class FakeRepository : RepositoryInterface {
     }
 
     override suspend fun insertAlertToRoom(savedAlerts: SavedAlerts): Long {
-        TODO("Not yet implemented")
+        return fakeSavedAlertsList.add(savedAlerts).let { if (true) 1L else 0L}
     }
 
     override suspend fun getStoredAlerts(): Flow<List<SavedAlerts>> {
-        TODO("Not yet implemented")
+        return flow { emit(fakeSavedAlertsList) }
     }
 
     override suspend fun deleteAlertFromRoom(id: Int): Int {
-        TODO("Not yet implemented")
+        val deletedAlert = fakeSavedAlertsList.removeAll { it.id == id }
+
+        return if (deletedAlert) 1 else 0
     }
 
     override suspend fun getAlertFromRoom(id: Int): SavedAlerts {

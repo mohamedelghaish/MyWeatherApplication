@@ -1,4 +1,4 @@
-package com.example.myweatherapplication
+package com.example.myweatherapplication.database
 
 import com.example.myweatherapplication.model.SavedAlerts
 

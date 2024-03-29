@@ -10,8 +10,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.example.myweatherapplication.Const
-import com.example.myweatherapplication.HomeMapsActivity
-//import com.example.myweatherapplication.HomeMapsActivity
+import com.example.myweatherapplication.home.view.HomeMapsActivity
+//import com.example.myweatherapplication.home.view.HomeMapsActivity
 import com.example.myweatherapplication.MainActivity
 import com.example.myweatherapplication.R
 import java.util.Locale

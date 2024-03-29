@@ -38,7 +38,7 @@
 
 
         <activity
-            android:name=".HomeMapsActivity"
+            android:name=".home.view.HomeMapsActivity"
             android:exported="false"
             android:label="@string/title_activity_home_maps" />
 
@@ -49,7 +49,7 @@
             android:name=".favorite.view.DetailsFavorite"
             android:exported="false" />
         <activity
-            android:name=".MapsActivity"
+            android:name=".favorite.view.MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity

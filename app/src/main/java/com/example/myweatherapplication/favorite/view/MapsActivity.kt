@@ -1,6 +1,5 @@
-package com.example.myweatherapplication
+package com.example.myweatherapplication.favorite.view
 
-import android.content.Intent
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
@@ -10,6 +9,8 @@ import android.util.Log
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
+import com.example.myweatherapplication.Const
+import com.example.myweatherapplication.R
 import com.example.myweatherapplication.database.LocalDataSourceImp
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.myweatherapplication.favorite.viewmodel.FavoriteViewModel
 import com.example.myweatherapplication.favorite.viewmodel.FavoriteViewModelFactory
+import com.example.myweatherapplication.model.FavoriteLocation
 import com.example.myweatherapplication.model.Repository
 import com.example.myweatherapplication.network.RemoteDataSourceImp
 import com.google.android.gms.maps.model.Marker
@@ -28,7 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import java.io.IOException
 import java.util.Locale
 
-class HomeMapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private  val TAG = "GoogleMapsActivity"
 
 
@@ -52,8 +54,10 @@ class HomeMapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val factory = FavoriteViewModelFactory(
             Repository.getInstance(
+
                 RemoteDataSourceImp.getInstance(),
                 LocalDataSourceImp.getInstance(this)
+
             ))
         viewModel = ViewModelProvider(this, factory).get(FavoriteViewModel::class.java)
 
@@ -72,12 +76,14 @@ class HomeMapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapDoneFloatingActionButton.setOnClickListener {
             if (isPlaceSelected) {
                 selectedDate = System.currentTimeMillis() / 1000
-                Const.latitude = latitude
-                Const.longitude = longitude
-                Const.location = "MAP"
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-
+                viewModel.insertToFavorite(
+                    FavoriteLocation(
+                        latitude.toDouble(),
+                        longitude.toDouble(),
+                        selectedPlace,
+                        selectedDate
+                    )
+                )
                 finish()
             } else {
                 showSnackBar()
@@ -111,7 +117,7 @@ class HomeMapsActivity : AppCompatActivity(), OnMapReadyCallback {
         this.googleMap.setOnMapClickListener { p0 ->
             if (marker != null) {
                 marker.position = p0
-                val geocoder = Geocoder(this@HomeMapsActivity, Locale.getDefault())
+                val geocoder = Geocoder(this@MapsActivity, Locale.getDefault())
                 val addresses: List<Address>?
                 try {
                     addresses = geocoder.getFromLocation(p0.latitude, p0.longitude, 1)
@@ -120,7 +126,6 @@ class HomeMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         marker.title = addresses[0].adminArea
                         latitude = marker.position.latitude.toString()
                         longitude = marker.position.longitude.toString()
-
                         selectedPlace = addresses[0].adminArea
                         isPlaceSelected = true
                     }
@@ -135,7 +140,7 @@ class HomeMapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onMarkerDrag(marker: Marker) {}
 
             override fun onMarkerDragEnd(marker: Marker) {
-                val geocoder = Geocoder(this@HomeMapsActivity, Locale.getDefault())
+                val geocoder = Geocoder(this@MapsActivity, Locale.getDefault())
                 val addresses: List<Address>?
                 try {
                     addresses = geocoder.getFromLocation(

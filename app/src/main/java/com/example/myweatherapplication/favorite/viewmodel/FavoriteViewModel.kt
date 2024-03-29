@@ -3,14 +3,13 @@ package com.example.myweatherapplication.favorite.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myweatherapplication.ApiState
-import com.example.myweatherapplication.RoomState
+import com.example.myweatherapplication.network.ApiState
+import com.example.myweatherapplication.database.RoomState
 import com.example.myweatherapplication.model.FavoriteLocation
 import com.example.myweatherapplication.model.RepositoryInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FavoriteViewModel(private var _iRepo: RepositoryInterface) : ViewModel()  {
 
