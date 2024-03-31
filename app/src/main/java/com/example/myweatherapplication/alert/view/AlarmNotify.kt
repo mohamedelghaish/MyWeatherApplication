@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -21,7 +22,9 @@ import java.text.DecimalFormat
 
 class AlarmNotify(private var context: Context, workerParams: WorkerParameters):
     Worker(context, workerParams) {
+    //var id :Int = 0
     override fun doWork(): Result {
+         //id = inputData.getInt("MyKey", 0)
         setAlerts()
         return Result.success()
     }
@@ -40,11 +43,12 @@ class AlarmNotify(private var context: Context, workerParams: WorkerParameters):
                 .list.get(0).main.temp  - 273.15) + "°C"
 
             display(currentDescription)
-//            withContext(Dispatchers.IO){
-//                launch {
-//                    repository.deleteAlertFromRoom(AlertFragment.alarmID)
-//                }
-//            }
+            withContext(Dispatchers.IO){
+                launch {
+                    val id = repository.localSource.getStoredAlerts().first().get(0).id!!
+                    repository.deleteAlertFromRoom(id)
+                }
+            }
         }
         return currentDescription
     }
@@ -77,6 +81,12 @@ class AlarmNotify(private var context: Context, workerParams: WorkerParameters):
         mNotificationManager.createNotificationChannel(channel)
         mBuilder.setChannelId(channelId)
         mNotificationManager.notify(0, mBuilder.build())
+        startMusic()
+    }
+
+    private fun startMusic() {
+        val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.ring)
+        mediaPlayer.start()
     }
 
 }

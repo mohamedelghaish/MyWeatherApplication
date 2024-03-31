@@ -52,7 +52,7 @@ class WeatherDaoTest {
     @Test
     fun insertCurrentToRoom_test() {
         runBlockingTest {
-            // Create a WeatherResponse object to be used in the test
+
              weatherResponse = WeatherResponse(
                 cod = "",
                 message = 0,
@@ -70,44 +70,42 @@ class WeatherDaoTest {
                 )
             )
 
-            // Insert the object into the database
+
             val result = dao.insertCurrentToRoom(weatherResponse)
 
-            // Assert that the result is not -1 (indicating the insert was successful)
+
             assertThat(result, CoreMatchers.not(-1))
         }
     }
 
     @Test
     fun getStoredWeather() = runBlockingTest {
-        // Insert some test data
+
         val testData = listOf(
             WeatherResponse("1", 0, 0, emptyList(), City(1, "City1", Coord(0.0, 0.0), "Country1", 1000, 0, 0L, 0L)),
             WeatherResponse("2", 0, 0, emptyList(), City(2, "City2", Coord(0.0, 0.0), "Country2", 2000, 0, 0L, 0L))
         )
         testData.forEach { dao.insertCurrentToRoom(it) }
 
-        // Call the method to get stored weather data
+
         val storedWeatherFlow = dao.getStoredWeather()
 
-        // Collect the emitted list of WeatherResponse objects
+
         val storedWeatherList = storedWeatherFlow.first()
 
-        // Verify that the stored data matches the inserted data
+
         assertEquals(testData, storedWeatherList)
     }
 
     @Test
     fun insertToFavorite_and_getStoredFavorite() = runBlockingTest {
         val favoriteLocation = FavoriteLocation(26.8206, 30.8025, "Egypt", System.currentTimeMillis())
-        // Insert favorite location
+
         dao.insertToFavorite(favoriteLocation)
 
-        // Get stored favorite locations
+
         val storedFavorite = dao.getStoredFavorite().first()
 
-        // Verify that the inserted favorite location is retrieved
-        //assertTrue(storedFavorite.contains(favoriteLocation))
 
         assertThat( storedFavorite.get(0).selectedPlaces,`is`("Egypt"))
         assertThat( storedFavorite.get(0).lat,`is`(26.8206))
@@ -119,25 +117,24 @@ class WeatherDaoTest {
     fun deleteFromFavorite() = runBlockingTest {
         val favoriteLocation = FavoriteLocation(26.8206, 30.8025, "Egypt", System.currentTimeMillis())
 
-        // Insert favorite location
+
         dao.insertToFavorite(favoriteLocation)
 
-        // Delete the favorite location
+
         dao.deleteFromFavorite(favoriteLocation)
 
-        // Get stored favorite locations
+
         val storedFavorite = dao.getStoredFavorite().first()
 
-        // Verify that the favorite location is deleted
+
         assertFalse(storedFavorite.contains(favoriteLocation))
     }
 
     @Test
     fun getStoredFavorite_emptyList() = runBlockingTest {
-        // Get stored favorite locations when the list is empty
+
         val storedFavorite = dao.getStoredFavorite().first()
 
-        // Verify that the list is empty
         assertTrue(storedFavorite.isEmpty())
     }
 }

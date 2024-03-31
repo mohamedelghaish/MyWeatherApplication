@@ -13,7 +13,7 @@
         <string name="language_english">الإنجليزية</string>
         <string name="location">الموقع</string>
         <string name="location_method">طريقة الموقع</string>
-        <string name="location_gps">GPS</string>
+        <string name="location_gps">نظام تحديد المواقع</string>
         <string name="location_map">الخريطة</string>
         <string name="temperature_celsius">مئوية</string>
         <string name="temperature_kelvin">كلفن</string>
@@ -116,5 +116,11 @@
         <string name="PM">مساءً</string>
         <string name="AM">صباحًا</string>
     <string name="alert_start_time_error">يجب</string>
+
+    <string name="cloud_info">.%</string>
+    <string name="pressure_info">.</string>
+    <string name="_18">18%</string>
+    <string name="get_location">اختار طريقة تحديد موقعك</string>
+    <string name="set">تعيين</string>
 
 </resources>

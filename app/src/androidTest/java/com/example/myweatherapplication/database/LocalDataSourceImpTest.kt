@@ -56,7 +56,7 @@ class LocalDataSourceImpTest{
     }
     @After
     fun teardown() {
-        // close the database
+        
         database.close()
     }
 
@@ -96,7 +96,7 @@ class LocalDataSourceImpTest{
     @Test
     fun insertCurrentDataToRoom_inserts_data_into_database() {
         runBlockingTest {
-            // Given a WeatherResponse object to insert
+            // Given 
             val testData = WeatherResponse(
                 "1",
                 0,
@@ -112,7 +112,7 @@ class LocalDataSourceImpTest{
             val storedWeatherFlow = localDataSource.getWeatherFromDataBase()
             val result = storedWeatherFlow.first()
 
-            // Verify that the inserted data is present in the database
+           //Then
             assertEquals(listOf(testData), result)
         }
     }
@@ -120,18 +120,18 @@ class LocalDataSourceImpTest{
     @Test
     fun getFavoriteFromDataBase_returns_data_from_database() {
         runBlockingTest {
-            // Given some favorite locations to insert
+            // Given 
             val testData = listOf(
                 FavoriteLocation(1.0, 2.0, "Location1", System.currentTimeMillis()),
                 FavoriteLocation(3.0, 4.0, "Location2", System.currentTimeMillis())
             )
             testData.forEach { localDataSource.insertToFavorite(it) }
 
-            // When retrieving the favorite locations from the database
+            // When
             val storedFavoriteFlow = localDataSource.getFavoriteFromDataBase()
             val result = storedFavoriteFlow.first()
 
-            // Then the retrieved data should match the inserted data
+            // Then 
             assertEquals(testData, result)
         }
     }
@@ -139,17 +139,17 @@ class LocalDataSourceImpTest{
     @Test
     fun insertToFavorite_inserts_data_into_database() {
         runBlockingTest {
-            // Given a FavoriteLocation object to insert
+            // Given 
             val testData = FavoriteLocation(1.0, 2.0, "Location1", System.currentTimeMillis())
 
-            // When inserting the data into the database
+            // When 
             localDataSource.insertToFavorite(testData)
 
-            // Then fetch the stored data from the database
+            // Then 
             val storedFavoriteFlow = localDataSource.getFavoriteFromDataBase()
             val result = storedFavoriteFlow.first()
 
-            // Verify that the inserted data is present in the database
+            
             assertTrue(result.contains(testData))
             assertThat(
                 result.get(0).selectedPlaces,
@@ -161,27 +161,26 @@ class LocalDataSourceImpTest{
     @Test
     fun removeFromFavorite_removes_data_from_database() {
         runBlockingTest {
-            // Given a FavoriteLocation object to insert
+            // Given 
             val testData = FavoriteLocation(1.0, 2.0, "Location1", System.currentTimeMillis())
 
-            // Insert the test data into the database
+
             localDataSource.insertToFavorite(testData)
 
-            // Ensure that the data is inserted
             val storedFavoriteFlowBefore = localDataSource.getFavoriteFromDataBase()
             val storedFavoritesBefore = storedFavoriteFlowBefore.first()
             assertTrue(storedFavoritesBefore.contains(testData))
 
-            // When removing the data from the database
+            // When
             val sotredFavoriteDeleted = localDataSource.removeFromFavorite(testData)
 
-            // Then fetch the stored data from the database
+            // Then
             val storedFavoriteFlowAfter = localDataSource.getFavoriteFromDataBase()
             val storedFavoritesAfter = storedFavoriteFlowAfter.first()
 
-            // Verify that the inserted data is no longer present in the database
+
             assertFalse(storedFavoritesAfter.contains(testData))
-            // Verify that the number of rows deleted is 1
+
             assertEquals(1, sotredFavoriteDeleted)
         }
     }

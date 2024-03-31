@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.flow
 
 class FakeRepository : RepositoryInterface {
 
-     val fakeWeatherResponseList = mutableListOf<WeatherResponse>()
-        val fakeFavoriteLocationList = mutableListOf<FavoriteLocation>()
+    val fakeWeatherResponseList = mutableListOf<WeatherResponse>()
+    val fakeFavoriteLocationList = mutableListOf<FavoriteLocation>()
     val fakeSavedAlertsList = mutableListOf<SavedAlerts>()
-        //val fakeFavoriteLocation = MutableStateFlow<List<FavoriteLocation>>(emptyList())
+
 
 
     override suspend fun getDataFromNetwork(
@@ -17,36 +17,36 @@ class FakeRepository : RepositoryInterface {
         longitude: String,
         language: String
     ): Flow<WeatherResponse> {
-        // For testing, you can return a fake WeatherResponse Flow
+
         return flow {
-            // Create a fake WeatherResponse object
+
             val fakeWeatherResponse = createFakeWeatherResponse()
             emit(fakeWeatherResponse)
         }
     }
 
     override suspend fun getWeatherFromDataBase(): Flow<List<WeatherResponse>> {
-        // Return a Flow emitting the fake weather response list
+
         return flow { emit(fakeWeatherResponseList) }
     }
 
     override suspend fun insertCurrentDataToRoom(weatherResponse: WeatherResponse) {
-        // Insert the provided weather response into the fake list
+
         fakeWeatherResponseList.add(weatherResponse)
     }
 
     override suspend fun getFavoriteFromDataBase(): Flow<List<FavoriteLocation>> {
-        // Return a Flow emitting the fake favorite location list
+
         return flow { emit(fakeFavoriteLocationList) }
     }
 
     override suspend fun insertToFavorite(favoritePlaces: FavoriteLocation) {
-        // Insert the provided favorite location into the fake list
+
         fakeFavoriteLocationList.add(favoritePlaces)
     }
 
     override suspend fun removeFromFavorite(favoritePlaces: FavoriteLocation): Int {
-        // Remove the provided favorite location from the fake list
+
         return fakeFavoriteLocationList.removeAll { it == favoritePlaces }.let { if (it) 1 else 0 }
     }
 
@@ -69,7 +69,7 @@ class FakeRepository : RepositoryInterface {
     }
 
     private fun createFakeWeatherResponse(): WeatherResponse {
-        // Create and return a fake WeatherResponse object with default or empty values
+
         return WeatherResponse(
             cod = "",
             message = 0,

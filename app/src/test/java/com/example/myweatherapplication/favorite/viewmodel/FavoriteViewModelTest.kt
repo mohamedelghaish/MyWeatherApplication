@@ -67,16 +67,16 @@ class FavoriteViewModelTest {
 
     @Test
     fun deleteFavoritePlaceFromDatabase() = runBlocking {
-        // Given
+
         val testData = FavoriteLocation(1.0, 2.0, "Location1", System.currentTimeMillis())
-        // First, insert the test data into the database
+
         viewModel.insertToFavorite(testData)
 
-        // When
-        // Then, delete the test data from the database
+
+
         val response = viewModel.deleteFromRoom(testData)
 
-        // Check if the favorite location is removed from the list
+
         val value = viewModel._favoriteLocation.first()
         var data = emptyList<FavoriteLocation>()
         when (value) {
@@ -92,15 +92,15 @@ class FavoriteViewModelTest {
 
     @Test
     fun getdatafromnetwork() = runBlockingTest {
-        // Given
+
         val latitude = "1.0"
         val longitude = "2.0"
         val language = "en"
 
-        // When
+
         viewModel.getDataToFavoriteLocation(latitude, longitude, language)
 
-        // Then
+
         val result = viewModel._favoriteLocation.first()
         var data = emptyList<FavoriteLocation>()
         when (result) {
@@ -109,7 +109,7 @@ class FavoriteViewModelTest {
 
             else -> {}
         }
-        // Verify
+
         assertThat(data, `is`(notNullValue()))
     }
 }

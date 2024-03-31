@@ -17,22 +17,22 @@ class FakeLocalDataSource:LocalDataSource {
     }
 
     override suspend fun insertCurrentDataToRoom(weatherResponse: WeatherResponse) {
-        // Add the weather response to fake data list
+
         fakeWeatherData.add(weatherResponse)
     }
 
     override suspend fun getFavoriteFromDataBase(): Flow<List<FavoriteLocation>> {
-        // Return a flow of fake favorite data
+
         return flowOf(fakeFavoriteData)
     }
 
     override suspend fun insertToFavorite(favoriteLocation: FavoriteLocation) {
-        // Add the favorite location to fake data list
+
         fakeFavoriteData.add(favoriteLocation)
     }
 
     override suspend fun removeFromFavorite(favoriteLocation: FavoriteLocation): Int {
-        // Remove the favorite location from fake data list and return the result
+
         return if (fakeFavoriteData.remove(favoriteLocation)) 1 else 0
     }
 

@@ -114,7 +114,7 @@
     <string name="cloud_info">0%</string>
     <string name="pressure_info">0</string>
     <string name="_18">18%</string>
-    <string name="get_location">Get Location</string>
+    <string name="get_location">Choose how to Get Location</string>
     <string name="set">Set</string>
     <string name="title_activity_home_maps">Home MAp</string>
 

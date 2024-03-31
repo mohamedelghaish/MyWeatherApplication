@@ -16,6 +16,7 @@ import android.widget.TimePicker
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.myweatherapplication.database.AlertState
@@ -52,9 +53,6 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
     private var alarmStartHour: Int = 0
     private var alarmStartMinute: Int = 0
     private var Delay: Long = 0L
-    companion object{
-         var alarmID:Int =0
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -250,8 +248,7 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
         )
         
         viewModel.insertAlert(alert)
-       // alarmID = alert.id!!
-       // Log.i(TAG, "insertToRoom: $alarmID")
+
         
     }
 
@@ -264,6 +261,7 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
     }
 
     private fun setupAlertRequest() {
+
         val reminderRequest = OneTimeWorkRequestBuilder<AlarmNotify>().setInitialDelay(
             Delay,
             TimeUnit.MILLISECONDS

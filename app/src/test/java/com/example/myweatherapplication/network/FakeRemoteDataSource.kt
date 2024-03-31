@@ -14,7 +14,7 @@ class FakeRemoteDataSource:RemoteDataSource {
         longitude: String,
         language: String
     ): WeatherResponse {
-        // Generate fake data
+
         return WeatherResponse(
             cod = "",
             message = 0,

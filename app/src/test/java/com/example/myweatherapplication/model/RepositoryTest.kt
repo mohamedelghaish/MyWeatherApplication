@@ -30,12 +30,10 @@ class RepositoryTest{
 
     @Test
     fun getDataFromNetwork_returnsCorrectData() {
-        // When
         val result = runBlocking {
             repository.getDataFromNetwork("10.0", "20.0", "en").toList()
         }
 
-        // Then
         assertEquals(listOf(createFakeWeatherResponse()), result)
     }
 
@@ -62,11 +60,8 @@ class RepositoryTest{
             testData.forEach { fakeLocalDataSource.insertCurrentDataToRoom(it) }
 
 
-            // When
-            val result =
-                repository.getWeatherFromDataBase().first()
+            val result = repository.getWeatherFromDataBase().first()
 
-            // Then
             assertEquals(testData, result)
         }
     }
@@ -74,18 +69,14 @@ class RepositoryTest{
     @Test
     fun insertCurrentDataToRoom_inserts_data_into_database() {
         runBlockingTest {
-            // Given a WeatherResponse object to insert
             val testData = createFakeWeatherResponse()
 
-            // When inserting the data into the repository
 
             repository.insertCurrentDataToRoom(testData)
 
-            // Then fetch the stored data from the fake local data source
             val storedWeatherFlow = fakeLocalDataSource.getWeatherFromDataBase().first()
             val result = storedWeatherFlow.first()
 
-            // Verify that the inserted data is present in the database
             assertEquals(testData, result)
         }
     }
@@ -93,22 +84,19 @@ class RepositoryTest{
     @Test
     fun getFavoriteFromDataBase_returns_correct_data() {
         runBlockingTest {
-            // Given a list of fake favorite locations
             val testData = listOf(
                 FavoriteLocation(1.0, 2.0, "Location1", 123456),
                 FavoriteLocation(3.0, 4.0, "Location2", 789012)
             )
 
-            // When inserting the fake favorite locations into the fake local data source
 
             testData.forEach { fakeLocalDataSource.insertToFavorite(it) }
 
 
-            // Then fetch the stored favorite locations from the repository
+
             val storedFavoritesFlow = repository.getFavoriteFromDataBase()
             val result = runBlocking { storedFavoritesFlow.first() }
 
-            // Verify that the retrieved favorite locations match the fake data
             assertEquals(testData, result)
         }
     }
@@ -116,18 +104,16 @@ class RepositoryTest{
     @Test
     fun insertToFavorite_inserts_data_into_database() {
         runBlockingTest {
-            // Given a fake favorite location
+
             val testData = FavoriteLocation(1.0, 2.0, "Location1", System.currentTimeMillis())
 
-            // When inserting the fake favorite location into the repository
+
 
             repository.insertToFavorite(testData)
 
-            // Then fetch the stored favorite locations from the fake local data source
             val storedFavoritesFlow = fakeLocalDataSource.getFavoriteFromDataBase()
             val result = storedFavoritesFlow.first()
 
-            // Verify that the inserted favorite location is present in the database
             assertEquals(true, result.contains(testData))
         }
 
@@ -136,27 +122,22 @@ class RepositoryTest{
     @Test
     fun removeFromFavorite_removes_data_from_database() {
         runBlockingTest {
-            // Given a fake favorite location stored in the database
+
             val testData = FavoriteLocation(1.0, 2.0, "Location1", System.currentTimeMillis())
             fakeLocalDataSource.insertToFavorite(testData)
 
-            // When removing the fake favorite location from the repository
 
             repository.removeFromFavorite(testData)
 
-
-            // Then fetch the stored favorite locations from the fake local data source
             val storedFavoritesFlow = fakeLocalDataSource.getFavoriteFromDataBase()
             val result = storedFavoritesFlow.first()
 
-            // Verify that the removed favorite location is not present in the database
             assertEquals(false, result.contains(testData))
         }
     }
 
 
     private fun createFakeWeatherResponse(): WeatherResponse {
-        // Create and return a fake WeatherResponse object with default or empty values
         return WeatherResponse(
             cod = "",
             message = 0,
