@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -14,6 +15,7 @@ import com.example.myweatherapplication.home.view.HomeMapsActivity
 //import com.example.myweatherapplication.home.view.HomeMapsActivity
 import com.example.myweatherapplication.MainActivity
 import com.example.myweatherapplication.R
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -70,4 +72,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         resources.updateConfiguration(configuration, resources.displayMetrics)
         (requireActivity() as MainActivity).restart()
     }
+
+    /*private fun sharedFlowLanguage(){
+        externalScope = lifecycleScope
+        languageHandler = LanguageHandler(externalScope,tickIntervalMs)
+
+        job = externalScope.launch {
+            languageHandler.languageFlow.collect{
+                currentLanguage = it
+            }
+        }
+
+        setAppLocale(currentLanguage)
+
+    }*/
 }

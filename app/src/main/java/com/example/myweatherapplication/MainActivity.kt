@@ -22,9 +22,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import com.example.myweatherapplication.alert.view.AlertFragment
 import com.example.myweatherapplication.favorite.view.FavoriteFragment
 import com.example.myweatherapplication.home.view.HomeFragment
+import com.example.myweatherapplication.settings.LanguageHandler
 import com.example.myweatherapplication.settings.SettingsFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -33,8 +35,11 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -44,9 +49,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
+
+    lateinit var languageHandler: LanguageHandler
+    private val tickIntervalMs: Long = 5000
+    private lateinit var externalScope: CoroutineScope
+    private var currentLanguage = ""
+    private lateinit var job: Job
     override fun onCreate(savedInstanceState: Bundle?) {
-        setAppLocale(Const.language)
+        //setAppLocale(Const.language)
         super.onCreate(savedInstanceState)
+        sharedFlowLanguage()
         setContentView(R.layout.activity_main)
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         sharedPreferences= this.getSharedPreferences("location",Context.MODE_PRIVATE)
@@ -195,6 +207,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         config.setLocale(Locale(localeCode.lowercase(Locale.ROOT)))
         resources.updateConfiguration(config, dm)
         Locale.setDefault(Locale.forLanguageTag(Const.language))
+    }
+
+    private fun sharedFlowLanguage(){
+        externalScope = lifecycleScope
+        languageHandler = LanguageHandler(externalScope,tickIntervalMs)
+
+        job = externalScope.launch {
+            languageHandler.languageFlow.collect{
+                currentLanguage = it
+            }
+        }
+
+        setAppLocale(currentLanguage)
+
     }
 
 
