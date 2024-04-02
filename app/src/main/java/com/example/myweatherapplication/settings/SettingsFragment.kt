@@ -73,17 +73,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
         (requireActivity() as MainActivity).restart()
     }
 
-    /*private fun sharedFlowLanguage(){
-        externalScope = lifecycleScope
-        languageHandler = LanguageHandler(externalScope,tickIntervalMs)
 
-        job = externalScope.launch {
-            languageHandler.languageFlow.collect{
-                currentLanguage = it
-            }
-        }
-
-        setAppLocale(currentLanguage)
-
-    }*/
 }

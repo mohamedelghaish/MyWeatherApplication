@@ -28,6 +28,8 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun getDefaultValues() {
+//        Const.latitude = 31.2596451.toString()
+//        Const.longitude = 30.0210898.toString()
         Const.language =
             PreferenceManager.getDefaultSharedPreferences(application.applicationContext)
                 .getString("language_name", "auto")!!

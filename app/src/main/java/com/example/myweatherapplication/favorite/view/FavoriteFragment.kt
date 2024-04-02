@@ -76,7 +76,7 @@ class FavoriteFragment : Fragment(),OnFavoriteClick {
                             binding.imageViewFav.visibility=View.VISIBLE
                             binding.recyclerViewFavorites.visibility = View.GONE
                         } else {
-                            // Display the list of favorite locations
+
                             binding.noFavoriteTextView.visibility = View.GONE
                             binding.imageViewFav.visibility=View.GONE
                             binding.recyclerViewFavorites.visibility = View.VISIBLE
@@ -128,7 +128,7 @@ class FavoriteFragment : Fragment(),OnFavoriteClick {
             getString(R.string.error_network),
             Snackbar.LENGTH_SHORT
         ).setActionTextColor(Color.WHITE)
-        snackBar.view.setBackgroundColor(Color.BLACK)
+        snackBar.view.setBackgroundColor(Color.BLUE)
         snackBar.setAction(getString(R.string.enable)) {
             connectInternet(requireContext())
         }

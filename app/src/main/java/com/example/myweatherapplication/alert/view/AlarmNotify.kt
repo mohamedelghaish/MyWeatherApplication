@@ -22,9 +22,9 @@ import java.text.DecimalFormat
 
 class AlarmNotify(private var context: Context, workerParams: WorkerParameters):
     Worker(context, workerParams) {
-    //var id :Int = 0
+
     override fun doWork(): Result {
-         //id = inputData.getInt("MyKey", 0)
+
         setAlerts()
         return Result.success()
     }

@@ -195,7 +195,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         GlobalScope.launch(Dispatchers.IO) {
             val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
             val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-            //tvLocation.text = addresses?.get(0)?.getAddressLine(0).toString()
 
         }
     }

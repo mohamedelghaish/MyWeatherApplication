@@ -19,6 +19,8 @@ class FavoriteViewModel(private var _iRepo: RepositoryInterface) : ViewModel()  
 
     var _favoriteLocationDetails:MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
 
+
+
     fun getStoredFavoritePlaces() {
         viewModelScope.launch (Dispatchers.IO){
                 _iRepo.getFavoriteFromDataBase().collect{

@@ -81,8 +81,8 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         sharedPreferences = requireActivity().getSharedPreferences("location",Context.MODE_PRIVATE)
-        lat = sharedPreferences.getString("latitude","0")!!.toString()
-        long = sharedPreferences.getString("longitude","0")!!.toString()
+        lat = sharedPreferences.getString("latitude","31.2596451")!!.toString()
+        long = sharedPreferences.getString("longitude","30.0210898")!!.toString()
 
         if (networkInfo==null){
            viewModel.getCurrentWeatherFromRoom()
@@ -217,6 +217,8 @@ class HomeFragment : Fragment() {
         val outputDateString = outputFormat.format(date)
         return outputDateString
     }
+
+
 
 
 }

@@ -83,12 +83,10 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
     private fun initViewModel() {
         val viewModelFactory = AlertViewModelFactory(
             Repository.getInstance(
-
                 RemoteDataSourceImp.getInstance(),
                 LocalDataSourceImp(requireContext())
             )
         )
-
         viewModel =
             ViewModelProvider(this, viewModelFactory)[AlertViewModel::class.java]
 
@@ -249,7 +247,6 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
         
         viewModel.insertAlert(alert)
 
-        
     }
 
     private fun calculateDifferenceBetweenDates(startDate: String, endDate: String): Long {
@@ -298,12 +295,10 @@ class AlertFragment : Fragment(), OnAlertDeleteClickListener {
         dialogView.findViewById<Button>(R.id.btn_yes).setOnClickListener {
             viewModel.deleteAlertFromRoom(id)
 
-
             dialog.dismiss()
         }
 
         dialogView.findViewById<Button>(R.id.btn_no).setOnClickListener {
-
             dialog.dismiss()
         }
 
